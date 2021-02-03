@@ -1,5 +1,4 @@
-import User from "@models/User";
-import { body, check } from "express-validator";
+import { check } from "express-validator";
 
 import RequestCore from "./RequestCore";
 
@@ -16,27 +15,6 @@ class AuthRoutesRequests extends RequestCore {
     return [
       this.commonValidationChains("email"),
       this.commonValidationChains("password"),
-    ];
-  };
-
-  public resetPassword = () => {
-    return [
-      this.commonValidationChains("email"),
-      this.commonValidationChains("password"),
-    ];
-  };
-
-  public editProfile = () => {
-    return [
-      check("newPassword")
-        .if(check("oldPassword").exists().notEmpty())
-        .exists()
-        .withMessage("You should set your password!")
-        .isLength({ min: 6, max: 100 })
-        .withMessage(
-          "Your password's length should be between 6 and 100 characters!"
-        ),
-      this.commonValidationChains("name"),
     ];
   };
 
