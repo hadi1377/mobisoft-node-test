@@ -3,7 +3,6 @@ import { Association, HasManyGetAssociationsMixin } from "sequelize";
 import jwt from "jsonwebtoken";
 
 import modelCommons, { tableCommons } from "@helpers/modelCommons";
-import Token from "@models/Token";
 import config from "@config/index";
 import formatIsoString from "@helpers/formatIsoString";
 
@@ -15,13 +14,7 @@ class User extends Model {
   public readonly createdAt!: Date;
   public readonly updatedAt!: Date;
 
-  public getTokens!: HasManyGetAssociationsMixin<Token>;
-
-  public readonly tokens?: Token[];
-
-  public static associations: {
-    tokens: Association<User, Token>;
-  };
+  public static associations: {};
 
   public getJWT = () => {
     const token = jwt.sign({ userId: this.id }, config.jwtSecret, {

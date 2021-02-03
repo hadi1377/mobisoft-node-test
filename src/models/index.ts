@@ -1,18 +1,14 @@
 import sequelize from "@config/sequelize";
 import User from "@models/User";
-import Token from "@models/Token";
+import Book from "./Book";
 
-// User and token
-User.hasMany(Token, {
+User.hasMany(Book, {
+  as: "books",
   foreignKey: "userId",
-  as: "tokens",
-  constraints: false,
 });
-Token.belongsTo(User, {
-  foreignKey: "userId",
+Book.belongsTo(User, {
   as: "user",
-  onDelete: "cascade",
-  onUpdate: "cascade",
+  foreignKey: "userId",
 });
 
 sequelize
