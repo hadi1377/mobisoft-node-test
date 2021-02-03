@@ -47,7 +47,8 @@
       "@config/*": ["config/*"],
       "@collections/*": ["classes/collections/*"],
       "@middlewares/*": ["middlewares/*"],
-      "@requests/*": ["requests/*"]
+      "@requests/*": ["requests/*"],
+      "@repositories/*": ["repositories/*"]
     }
   },
   "include": ["src/**/*", "app.ts"]

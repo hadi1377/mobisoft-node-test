@@ -66,6 +66,7 @@
     "@config": "dist/config",
     "@collections": "dist/classes/collections",
     "@middlewares": "dist/middlewares",
-    "@requests": "dist/requests"
+    "@requests": "dist/requests",
+    "@repositories": "dist/repositories"
   }
 }

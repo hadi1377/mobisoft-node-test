@@ -1,5 +1,7 @@
-import setUser from "@middlewares/setUser";
 import { Router } from "express";
+
+import setUser from "@middlewares/setUser";
+import authRouter from "./auth";
 
 const router = Router();
 
@@ -7,5 +9,6 @@ const router = Router();
 //   res.end("hello baby");
 // });
 router.use("/", setUser);
+router.use("/auth", authRouter);
 
 export default router;
