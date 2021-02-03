@@ -1,5 +1,6 @@
 import errorThrower from "@helpers/errorThrower";
 import Book from "@models/Book";
+import User from "@models/User";
 
 class BookRepository {
   public findById = async (id: number) => {
@@ -9,9 +10,9 @@ class BookRepository {
     };
   };
 
-  public createBook = async (data: Book.ModifyInfo) => {
+  public createBook = async (user: User, data: Book.ModifyInfo) => {
     try {
-      const createdBook = await Book.create({
+      let createdBook = await user.createBook({
         title: data.title,
         description: data.description,
         authors: data.authors,
@@ -20,6 +21,14 @@ class BookRepository {
         publisher: data.publisher,
         publishDate: data.publishDate,
         imagePath: data.imagePath || null,
+      });
+      createdBook = await createdBook.reload({
+        include: [
+          {
+            model: User,
+            as: "user",
+          },
+        ],
       });
       return {
         book: createdBook.format(),

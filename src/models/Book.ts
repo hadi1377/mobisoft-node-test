@@ -2,6 +2,7 @@ import { Model, DataTypes } from "sequelize";
 
 import modelCommons, { tableCommons } from "@helpers/modelCommons";
 import formatIsoString from "@helpers/formatIsoString";
+import User from "./User";
 
 class Book extends Model {
   public id: number;
@@ -16,6 +17,8 @@ class Book extends Model {
   public createdAt: Date;
   public updatedAt: Date;
 
+  public user: User;
+
   public format = () => {
     return {
       ...this.toJSON(),
@@ -23,6 +26,7 @@ class Book extends Model {
       updatedAt: formatIsoString(this.updatedAt),
       authors: this.authors.join(","),
       categories: this.categories.join(","),
+      user: this.user ? this.user.format() : undefined,
     };
   };
 }
@@ -54,7 +58,7 @@ Book.init(
       type: DataTypes.INTEGER,
       allowNull: false,
     },
-    publishedDate: {
+    publishDate: {
       type: DataTypes.STRING(20),
       allowNull: true,
     },

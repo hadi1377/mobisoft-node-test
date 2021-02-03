@@ -1,10 +1,10 @@
-import { Model, DataTypes } from "sequelize";
-import { Association, HasManyGetAssociationsMixin } from "sequelize";
+import { Model, DataTypes, HasManyCreateAssociationMixin } from "sequelize";
 import jwt from "jsonwebtoken";
 
 import modelCommons, { tableCommons } from "@helpers/modelCommons";
 import config from "@config/index";
 import formatIsoString from "@helpers/formatIsoString";
+import Book from "./Book";
 
 class User extends Model {
   public id!: number;
@@ -15,6 +15,8 @@ class User extends Model {
   public readonly updatedAt!: Date;
 
   public static associations: {};
+
+  public createBook: HasManyCreateAssociationMixin<Book>;
 
   public getJWT = () => {
     const token = jwt.sign({ userId: this.id }, config.jwtSecret, {
