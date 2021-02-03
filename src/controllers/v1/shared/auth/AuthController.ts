@@ -39,6 +39,14 @@ class AuthController {
       next(err);
     }
   };
+
+  public me: RequestHandler = async (req, res, next) => {
+    const user = req.user;
+    res.status(200).json({
+      statusCode: 200,
+      user: user.format(),
+    });
+  };
 }
 
 export default AuthController;

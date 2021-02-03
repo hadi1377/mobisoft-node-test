@@ -13,9 +13,6 @@ const handleErrors = (
     case 422:
       errMessage = "Unprocessable Entity";
       break;
-    case 401:
-      errMessage = "Bad Request";
-      break;
     case 404:
       errMessage = "Not found";
       break;
