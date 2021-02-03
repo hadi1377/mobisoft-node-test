@@ -1,11 +1,13 @@
 import { Model, DataTypes } from "sequelize";
 
 import modelCommons, { tableCommons } from "@helpers/modelCommons";
+import formatIsoString from "@helpers/formatIsoString";
 
 class Book extends Model {
   public id: number;
   public userId: number;
   public title: string;
+  public description: string;
   public authors: string[];
   public categories: string[];
   public pageCount: number;
@@ -13,6 +15,16 @@ class Book extends Model {
   public publisher: string;
   public createdAt: Date;
   public updatedAt: Date;
+
+  public format = () => {
+    return {
+      ...this.toJSON(),
+      createdAt: formatIsoString(this.createdAt),
+      updatedAt: formatIsoString(this.updatedAt),
+      authors: this.authors.join(","),
+      categories: this.categories.join(","),
+    };
+  };
 }
 
 Book.init(
@@ -21,6 +33,10 @@ Book.init(
     title: {
       type: DataTypes.STRING(255),
       allowNull: false,
+    },
+    description: {
+      type: DataTypes.TEXT,
+      allowNull: true,
     },
     userId: {
       type: DataTypes.INTEGER,
@@ -44,6 +60,10 @@ Book.init(
     },
     publisher: {
       type: DataTypes.STRING(255),
+      allowNull: true,
+    },
+    imagePath: {
+      type: DataTypes.STRING(512),
       allowNull: true,
     },
   },

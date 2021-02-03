@@ -9,6 +9,8 @@ User.hasMany(Book, {
 Book.belongsTo(User, {
   as: "user",
   foreignKey: "userId",
+  onDelete: "CASCADE",
+  onUpdate: "CASCADE",
 });
 
 sequelize
