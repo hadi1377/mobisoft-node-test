@@ -1,15 +1,5 @@
-import {
-  Model,
-  DataTypes,
-  HasManyCreateAssociationMixin,
-  HasManyAddAssociationMixin,
-  HasManyRemoveAssociationMixin,
-} from "sequelize";
-import {
-  Association,
-  BelongsToGetAssociationMixin,
-  HasManyGetAssociationsMixin,
-} from "sequelize";
+import { Model, DataTypes } from "sequelize";
+import { Association, HasManyGetAssociationsMixin } from "sequelize";
 import bcrypt from "bcryptjs";
 
 import modelCommons, { tableCommons } from "@helpers/modelCommons";
@@ -21,13 +11,6 @@ class User extends Model {
   public email!: string;
   public name: string;
   public password!: string;
-  public confirmedAt: Date;
-  public roleId!: number;
-  public twitter?: string;
-  public instagram?: string;
-  public website?: string;
-  public biography?: string;
-  public profileImage?: string;
   public readonly createdAt!: Date;
   public readonly updatedAt!: Date;
 
@@ -46,10 +29,6 @@ User.init(
       type: DataTypes.STRING(255),
       allowNull: false,
     },
-    roleId: {
-      type: DataTypes.INTEGER,
-      allowNull: false,
-    },
     email: {
       type: DataTypes.STRING(255),
       allowNull: false,
@@ -57,31 +36,6 @@ User.init(
     password: {
       type: DataTypes.STRING(255),
       allowNull: false,
-    },
-    confirmedAt: {
-      type: DataTypes.DATE(),
-      defaultValue: null,
-      allowNull: true,
-    },
-    twitter: {
-      type: DataTypes.STRING(255),
-      allowNull: true,
-    },
-    instagram: {
-      type: DataTypes.STRING(255),
-      allowNull: true,
-    },
-    website: {
-      type: DataTypes.STRING(255),
-      allowNull: true,
-    },
-    biography: {
-      type: DataTypes.TEXT,
-      allowNull: true,
-    },
-    profileImage: {
-      type: DataTypes.STRING(255),
-      allowNull: true,
     },
   },
   {
