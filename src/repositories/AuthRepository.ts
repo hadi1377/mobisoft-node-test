@@ -3,6 +3,7 @@ import bcrypt from "bcryptjs";
 import User from "@models/User";
 import config from "@config/index";
 import errorThrower from "@helpers/errorThrower";
+import UserCollection from "@classes/collections/v1/UserCollection";
 
 class AuthRepository {
   public register = async (data: Auth.Register) => {
@@ -12,7 +13,10 @@ class AuthRepository {
         ...data,
         password: hashedPassword,
       });
-      return theUser;
+      return {
+        user: theUser.format(),
+        loginInfo: theUser.getJWT(),
+      };
     } catch (err) {
       throw err;
     }
@@ -33,7 +37,10 @@ class AuthRepository {
       );
       if (!checkPassword)
         errorThrower(null, 401, [{ msg: "Password is invalid!" }]);
-      return userWithThisEmail;
+      return {
+        user: userWithThisEmail.format(),
+        loginInfo: userWithThisEmail.getJWT(),
+      };
     } catch (err) {
       throw err;
     }

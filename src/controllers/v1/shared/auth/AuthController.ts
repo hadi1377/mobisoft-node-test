@@ -18,8 +18,7 @@ class AuthController {
       res.status(200).json({
         statusCode: 200,
         message: "You can login to website right now!",
-        user: registeredUser,
-        loginInfo: registeredUser.getJWT(),
+        ...registeredUser,
       });
     } catch (err) {
       next(err);
@@ -34,8 +33,7 @@ class AuthController {
       res.status(200).json({
         statusCode: 200,
         message: "Successfully logged in!",
-        user: theUser,
-        loginInfo: theUser.getJWT(),
+        ...theUser,
       });
     } catch (err) {
       next(err);
@@ -44,13 +42,3 @@ class AuthController {
 }
 
 export default AuthController;
-export const register: RequestHandler = async (req, res, next) => {
-  try {
-    errorThrower(req);
-    //   const registeredUser = await
-  } catch (err) {
-    next(err);
-  }
-};
-
-export const login: RequestHandler = async (req, res, next) => {};

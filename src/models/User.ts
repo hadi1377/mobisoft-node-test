@@ -5,6 +5,7 @@ import jwt from "jsonwebtoken";
 import modelCommons, { tableCommons } from "@helpers/modelCommons";
 import Token from "@models/Token";
 import config from "@config/index";
+import formatIsoString from "@helpers/formatIsoString";
 
 class User extends Model {
   public id!: number;
@@ -30,6 +31,15 @@ class User extends Model {
       token,
       expireAt: config.tokenExpirationInSecond,
       userId: this.id,
+    };
+  };
+
+  public format = () => {
+    return {
+      ...this.toJSON(),
+      password: undefined,
+      createdAt: formatIsoString(this.createdAt),
+      updatedAt: formatIsoString(this.updatedAt),
     };
   };
 }
