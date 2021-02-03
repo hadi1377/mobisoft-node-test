@@ -2,7 +2,7 @@ import { validationResult } from "express-validator";
 import { Request } from "express";
 
 const handleErrors = (
-  req: Request,
+  req: Request | null = null,
   code = 422,
   data: Array<{
     msg: string;

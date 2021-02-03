@@ -1,6 +1,6 @@
 import { Model, DataTypes } from "sequelize";
 import { Association, HasManyGetAssociationsMixin } from "sequelize";
-import bcrypt from "bcryptjs";
+import jwt from "jsonwebtoken";
 
 import modelCommons, { tableCommons } from "@helpers/modelCommons";
 import Token from "@models/Token";
@@ -20,6 +20,17 @@ class User extends Model {
 
   public static associations: {
     tokens: Association<User, Token>;
+  };
+
+  public getJWT = () => {
+    const token = jwt.sign({ userId: this.id }, config.jwtSecret, {
+      expiresIn: config.tokenExpiration,
+    });
+    return {
+      token,
+      expireAt: config.tokenExpirationInSecond,
+      userId: this.id,
+    };
   };
 }
 User.init(
@@ -42,10 +53,10 @@ User.init(
     ...tableCommons("users", "User"),
     timestamps: true,
     hooks: {
-      beforeCreate: async (user) => {
-        const hashedPassword = await bcrypt.hash(user.password, config.salt);
-        user.password = hashedPassword;
-      },
+      // beforeCreate: async (user) => {
+      //   const hashedPassword = await bcrypt.hash(user.password, config.salt);
+      //   user.password = hashedPassword;
+      // },
     },
   }
 );

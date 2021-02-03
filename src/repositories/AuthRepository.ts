@@ -2,6 +2,7 @@ import bcrypt from "bcryptjs";
 
 import User from "@models/User";
 import config from "@config/index";
+import errorThrower from "@helpers/errorThrower";
 
 class AuthRepository {
   public register = async (data: Auth.Register) => {
@@ -23,12 +24,15 @@ class AuthRepository {
         where: { email: data.email },
       });
       if (!userWithThisEmail)
-        throw new Error("There is no user with this email address!");
+        errorThrower(null, 404, [
+          { msg: "There is no user with this email address!" },
+        ]);
       const checkPassword = await bcrypt.compare(
         data.password,
         userWithThisEmail.password
       );
-      if (!checkPassword) throw new Error("Password is invalid!");
+      if (!checkPassword)
+        errorThrower(null, 401, [{ msg: "Password is invalid!" }]);
       return userWithThisEmail;
     } catch (err) {
       throw err;
