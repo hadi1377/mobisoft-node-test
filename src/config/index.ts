@@ -2,7 +2,7 @@ import dotenv from "dotenv";
 
 dotenv.config();
 
-const port = 8000;
+const port = process.env.PORT || 8000;
 export default {
   url: `http://127.0.0.1:8000`,
   jwtSecret: process.env.JWT_SECRET,
@@ -35,4 +35,5 @@ export default {
   disk: {
     maxSize: 1024 * 1024 * 8,
   },
+  googleApiKey: process.env.GOOGLE_API_KEY || "AIzaSyD2TzKVnBKbMs92hop1JAFCfFnGcpDbyRA",
 };
