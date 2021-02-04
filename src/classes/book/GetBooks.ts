@@ -6,6 +6,8 @@ class GetBooks {
   constructor(queryParams: Book.SearchQueryParams) {
     this.queryParams = queryParams;
   }
+
+//   public exec = () => {};
 }
 
 export default GetBooks;

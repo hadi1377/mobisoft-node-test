@@ -28,6 +28,8 @@ class Book extends Model {
       updatedAt: formatIsoString(this.updatedAt),
       authors: this.authors.join(","),
       categories: this.categories ? this.categories.join(",") : "",
+      isFromGoogle: false,
+      externalLink: null,
       user: this.user ? this.user.format() : undefined,
       imagePath: this.imagePath
         ? `${process.env.APP_URL}/uploads/books/${this.id}${path.extname(
