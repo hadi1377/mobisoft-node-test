@@ -45,6 +45,11 @@ class GetBooksFromDB {
         ),
       };
     }
+    if (this.queryParams.userId) {
+      this.whereConditions = {
+        userId: parseInt(this.queryParams.userId),
+      };
+    }
   };
 
   protected getData = async () => {

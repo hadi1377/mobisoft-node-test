@@ -8,15 +8,6 @@ const router = Router();
 
 router.use("/v1/", v1Routes);
 router.use("/uploads", downloadRoutes);
-router.get("/", async (req, res, next) => {
-  const hadi = new GetBooksFromGoogle({
-    isGoogle: "1",
-    title: "hadi",
-  });
-  await hadi.exec();
-  next();
-});
-
 router.use((err: any, req: Request, res: Response, next: NextFunction) => {
   console.log(err);
   const status = err.statusCode || 500;

@@ -16,6 +16,7 @@ declare namespace Book {
     author?: string | null;
     publisher?: string | null;
     subject?: string | null;
+    userId?: string;
     // page?: number;
     // perPage?: number;
   }
