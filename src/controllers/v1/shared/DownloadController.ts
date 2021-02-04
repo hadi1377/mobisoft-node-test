@@ -1,20 +1,24 @@
 import { RequestHandler } from "express";
 
 import errorThrower from "@helpers/errorThrower";
-import User from "@models/User";
-import baseDir from "@helpers/baseDir";
-import getFileExtension from "@helpers/getFileExtension";
+import DownloadRepository from "@repositories/DownloadRepository";
 
-export const downloadUserProfile: RequestHandler = async (req, res, next) => {
-  try {
-    errorThrower(req);
-    const { userID } = req.params;
-    const user: User = await User.findByPk(userID);
-    res.download(
-      baseDir(user.profileImage),
-      `${process.env.APP_NAME}-${userID}-${getFileExtension(user.profileImage)}`
-    );
-  } catch (err) {
-    next(err);
+class DownloadController {
+  protected downloadRepository: DownloadRepository;
+
+  constructor() {
+    this.downloadRepository = new DownloadRepository();
   }
-};
+  public downloadBookImage: RequestHandler = async (req, res, next) => {
+    try {
+      errorThrower(req);
+      const { bookID, ext } = req.params;
+      const theImage = await this.downloadRepository.getBookImage(bookID, ext);
+      res.download(theImage.imagePath);
+    } catch (err) {
+      next(err);
+    }
+  };
+}
+
+export default DownloadController;

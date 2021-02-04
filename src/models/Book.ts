@@ -1,4 +1,5 @@
 import { Model, DataTypes } from "sequelize";
+import path from "path";
 
 import modelCommons, { tableCommons } from "@helpers/modelCommons";
 import formatIsoString from "@helpers/formatIsoString";
@@ -28,6 +29,11 @@ class Book extends Model {
       authors: this.authors.join(","),
       categories: this.categories.join(","),
       user: this.user ? this.user.format() : undefined,
+      imagePath: this.imagePath
+        ? `${process.env.APP_URL}/uploads/books/${this.id}${path.extname(
+            this.imagePath
+          )}`
+        : "https://upload.wikimedia.org/wikipedia/commons/thumb/a/ac/No_image_available.svg/600px-No_image_available.svg.png",
     };
   };
 }

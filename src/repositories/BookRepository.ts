@@ -3,6 +3,9 @@ import Book from "@models/Book";
 import User from "@models/User";
 
 class BookRepository {
+
+    // public find = async (query) => {};
+
   public findById = async (id: number | string) => {
     const theBook = await Book.findByPk(id);
     return {
