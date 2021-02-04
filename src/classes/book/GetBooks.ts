@@ -1,4 +1,7 @@
+import trueToTrue from "@helpers/trueToTrue";
 import { Request } from "express";
+import GetBooksFromDB from "./GetBooksFromDB";
+import GetBooksFromGoogle from "./GetBooksFromGoogle";
 
 class GetBooks {
   protected queryParams: Book.SearchQueryParams;
@@ -7,7 +10,21 @@ class GetBooks {
     this.queryParams = queryParams;
   }
 
-//   public exec = () => {};
+  public exec = async () => {
+    return trueToTrue(this.queryParams.isGoogle)
+      ? await this.getFromGoogle()
+      : await this.getFromDB();
+  };
+
+  protected getFromGoogle = async () => {
+    const getBooksFromGoogle = new GetBooksFromGoogle(this.queryParams);
+    return await getBooksFromGoogle.exec();
+  };
+
+  protected getFromDB = async () => {
+    const getBooksFromGoogle = new GetBooksFromDB(this.queryParams);
+    return await getBooksFromGoogle.exec();
+  };
 }
 
 export default GetBooks;
