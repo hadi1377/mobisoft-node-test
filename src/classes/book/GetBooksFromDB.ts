@@ -31,7 +31,7 @@ class GetBooksFromDB {
       this.whereConditions = {
         ...this.whereConditions,
         authors: {
-          [Op.contains]: `%${this.queryParams.author}%`,
+          [Op.contains]: [`%${this.queryParams.author}%`],
         },
       };
     }

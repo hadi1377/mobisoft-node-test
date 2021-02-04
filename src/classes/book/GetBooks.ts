@@ -11,9 +11,11 @@ class GetBooks {
   }
 
   public exec = async () => {
-    return trueToTrue(this.queryParams.isGoogle)
-      ? await this.getFromGoogle()
-      : await this.getFromDB();
+    return {
+      books: trueToTrue(this.queryParams.isGoogle)
+        ? await this.getFromGoogle()
+        : await this.getFromDB(),
+    };
   };
 
   protected getFromGoogle = async () => {

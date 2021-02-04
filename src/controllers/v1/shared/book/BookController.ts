@@ -2,6 +2,7 @@ import { RequestHandler } from "express";
 
 import BookRepository from "@repositories/BookRepository";
 import errorThrower from "@helpers/errorThrower";
+import GetBooks from "@classes/book/GetBooks";
 
 class BookController {
   protected bookRepository: BookRepository;
@@ -9,6 +10,20 @@ class BookController {
   constructor() {
     this.bookRepository = new BookRepository();
   }
+
+  public fetchAllBooks: RequestHandler = async (req, res, next) => {
+    try {
+      const query: Book.SearchQueryParams = req.query;
+      const getBooks = new GetBooks(query);
+      const books = await getBooks.exec();
+      res.status(200).json({
+        statusCode: 200,
+        ...books,
+      });
+    } catch (err) {
+      next(err);
+    }
+  };
 
   public findABook: RequestHandler = async (req, res, next) => {
     try {
@@ -28,7 +43,7 @@ class BookController {
     try {
       errorThrower(req);
       if (!req.file)
-        errorThrower(null, 422, [{msg: "Please upload an image!"}]);
+        errorThrower(null, 422, [{ msg: "Please upload an image!" }]);
       const bookRecord = await this.bookRepository.changeBookImage(
         req.params.bookID,
         req.file.path

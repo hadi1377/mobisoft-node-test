@@ -24,8 +24,9 @@ class GetBooksFromGoogle {
       pending.push(`+inauthor:${this.queryParams.author}`);
     if (this.queryParams.publisher)
       pending.push(`+inpublisher:${this.queryParams.publisher}`);
-    this.q = `?q=${this.queryParams.title || "hadi"}${pending.join("")}`;
+    this.q = `?q=${this.queryParams.title || ""}${pending.join("")}`;
     this.q = `${this.q}&key=${config.googleApiKey}`;
+    console.log(this.q);
   };
 
   protected getData = async () => {

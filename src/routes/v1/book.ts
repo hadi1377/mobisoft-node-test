@@ -11,6 +11,7 @@ const bookRequests = new BookRoutesRequests();
 
 const router = Router();
 
+router.get("/books", bookController.fetchAllBooks);
 router.get(
   "/book/:bookID",
   bookRequests.isThereModel("param", "Book"),
