@@ -9,11 +9,20 @@ const uploader = new Multer("books");
 
 const router = Router();
 
+router.get("/book/:bookID", bookController.findABook);
+
 router.post(
   "/book",
   isAuth,
   uploader.createDisk().single("image"),
   bookController.createBook
 );
+router.put(
+  "/book/:bookID",
+  isAuth,
+  uploader.createDisk().single("image"),
+  bookController.updateBook
+);
+router.delete("/book/:bookID", isAuth, bookController.destroyBook);
 
 export default router;

@@ -14,6 +14,7 @@ class Book extends Model {
   public pageCount: number;
   public publishDate: string;
   public publisher: string;
+  public imagePath?: string | null;
   public createdAt: Date;
   public updatedAt: Date;
 

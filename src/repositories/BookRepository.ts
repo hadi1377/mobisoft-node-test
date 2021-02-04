@@ -3,7 +3,7 @@ import Book from "@models/Book";
 import User from "@models/User";
 
 class BookRepository {
-  public findById = async (id: number) => {
+  public findById = async (id: number | string) => {
     const theBook = await Book.findByPk(id);
     return {
       book: theBook.format(),
@@ -23,12 +23,7 @@ class BookRepository {
         imagePath: data.imagePath || null,
       });
       createdBook = await createdBook.reload({
-        include: [
-          {
-            model: User,
-            as: "user",
-          },
-        ],
+        include: this.commonIncludes(),
       });
       return {
         book: createdBook.format(),
@@ -39,7 +34,7 @@ class BookRepository {
   };
 
   public findByIdAndUpdateBook = async (
-    itemId: number,
+    itemId: number | string,
     data: Book.ModifyInfo
   ) => {
     try {
@@ -52,7 +47,10 @@ class BookRepository {
         pageCount: data.pageCount,
         publisher: data.publisher,
         publishDate: data.publishDate,
-        imagePath: data.imagePath || null,
+        imagePath: data.imagePath || theBook.imagePath,
+      });
+      await theBook.reload({
+        include: this.commonIncludes(),
       });
       return {
         book: theBook.format(),
@@ -62,7 +60,7 @@ class BookRepository {
     }
   };
 
-  public findByIdAndDeleteBook = async (itemId: number) => {
+  public findByIdAndDeleteBook = async (itemId: number | string) => {
     try {
       const theBook = await Book.findByPk(itemId);
       await theBook.destroy();
@@ -70,6 +68,13 @@ class BookRepository {
       errorThrower(null, 500, [{ msg: err }]);
     }
   };
+
+  protected commonIncludes = () => [
+    {
+      model: User,
+      as: "user",
+    },
+  ];
 }
 
 export default BookRepository;
