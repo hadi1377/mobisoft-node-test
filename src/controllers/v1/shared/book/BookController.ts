@@ -3,6 +3,7 @@ import { RequestHandler } from "express";
 import BookRepository from "@repositories/BookRepository";
 import errorThrower from "@helpers/errorThrower";
 import GetBooks from "@classes/book/GetBooks";
+import Book from "@models/Book";
 
 class BookController {
   protected bookRepository: BookRepository;
@@ -14,6 +15,25 @@ class BookController {
   public fetchAllBooks: RequestHandler = async (req, res, next) => {
     try {
       const query: Book.SearchQueryParams = req.query;
+      const books = await this.bookRepository.fetchAll(query);
+      res.status(200).json({
+        statusCode: 200,
+        ...books,
+      });
+    } catch (err) {
+      next(err);
+    }
+  };
+
+  public fetchMyBooks: RequestHandler = async (req, res, next) => {
+    try {
+      errorThrower(req);
+      let query: Book.SearchQueryParams = req.query;
+      query = {
+        ...query,
+        userId: req.user.id.toString(),
+        isGoogle: "0",
+      };
       const books = await this.bookRepository.fetchAll(query);
       res.status(200).json({
         statusCode: 200,

@@ -20,12 +20,14 @@ class GetBooksFromGoogle {
 
   protected setQueryString = () => {
     const pending = [];
+    if (this.queryParams.title)
+      pending.push(`+intitle:${this.queryParams.title}`);
     if (this.queryParams.author)
       pending.push(`+inauthor:${this.queryParams.author}`);
     if (this.queryParams.publisher)
       pending.push(`+inpublisher:${this.queryParams.publisher}`);
     this.q = `?q=${this.queryParams.title || ""}${pending.join("")}`;
-    this.q = `${this.q}&key=${config.googleApiKey}`;
+    this.q = `${this.q}&key=${config.googleApiKey}&country=FR`;
     console.log(this.q);
   };
 
