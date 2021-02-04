@@ -11,6 +11,7 @@ class User extends Model {
   public email!: string;
   public name: string;
   public password!: string;
+  public booksCount?: string;
   public readonly createdAt!: Date;
   public readonly updatedAt!: Date;
 
@@ -30,9 +31,11 @@ class User extends Model {
   };
 
   public format = () => {
+    const data: any = this.toJSON();
     return {
       ...this.toJSON(),
       password: undefined,
+      booksCount: data.booksCount ? parseInt(data.booksCount) : undefined,
       createdAt: formatIsoString(this.createdAt),
       updatedAt: formatIsoString(this.updatedAt),
     };

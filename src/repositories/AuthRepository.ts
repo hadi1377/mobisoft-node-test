@@ -3,7 +3,6 @@ import bcrypt from "bcryptjs";
 import User from "@models/User";
 import config from "@config/index";
 import errorThrower from "@helpers/errorThrower";
-import UserCollection from "@classes/collections/v1/UserCollection";
 
 class AuthRepository {
   public register = async (data: Auth.Register) => {
