@@ -24,6 +24,41 @@ class BookController {
     }
   };
 
+  public changeImage: RequestHandler = async (req, res, next) => {
+    try {
+      errorThrower(req);
+      if (!req.file)
+        errorThrower(null, 422, [{msg: "Please upload an image!"}]);
+      const bookRecord = await this.bookRepository.changeBookImage(
+        req.params.bookID,
+        req.file.path
+      );
+      res.status(200).json({
+        statusCode: 200,
+        message: "The image updated successfully!",
+        ...bookRecord,
+      });
+    } catch (err) {
+      next(err);
+    }
+  };
+
+  public removeImage: RequestHandler = async (req, res, next) => {
+    try {
+      errorThrower(req);
+      const bookRecord = await this.bookRepository.removeBookImage(
+        req.params.bookID
+      );
+      res.status(200).json({
+        statusCode: 200,
+        message: "The image deleted successfully!",
+        ...bookRecord,
+      });
+    } catch (err) {
+      next(err);
+    }
+  };
+
   public createBook: RequestHandler = async (req, res, next) => {
     try {
       errorThrower(req);

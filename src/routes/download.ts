@@ -10,7 +10,7 @@ const router = Router();
 
 router.get(
   "/books/:bookID.:ext",
-  // requests.isThereModel("param", "user"),
+  requests.isThereModel("param", "book"),
   downloadController.downloadBookImage
 );
 

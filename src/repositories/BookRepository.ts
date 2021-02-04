@@ -1,10 +1,10 @@
 import errorThrower from "@helpers/errorThrower";
+import deleteFile from "@helpers/deleteFile";
 import Book from "@models/Book";
 import User from "@models/User";
 
 class BookRepository {
-
-    // public find = async (query) => {};
+  // public find = async (query) => {};
 
   public findById = async (id: number | string) => {
     const theBook = await Book.findByPk(id);
@@ -32,7 +32,42 @@ class BookRepository {
         book: createdBook.format(),
       };
     } catch (err) {
-      return errorThrower(null, 500, [{ msg: err }]);
+      throw err;
+    }
+  };
+
+  public changeBookImage = async (
+    itemID: number | string,
+    imagePath: string
+  ) => {
+    try {
+      const theBook = await Book.findByPk(itemID, {
+        include: this.commonIncludes(),
+      });
+      deleteFile(theBook.imagePath);
+      theBook.imagePath = imagePath;
+      await theBook.save();
+      return {
+        book: theBook.format(),
+      };
+    } catch (err) {
+      throw err;
+    }
+  };
+
+  public removeBookImage = async (itemID: number | string) => {
+    try {
+      const theBook = await Book.findByPk(itemID, {
+        include: this.commonIncludes(),
+      });
+      deleteFile(theBook.imagePath);
+      theBook.imagePath = null;
+      await theBook.save();
+      return {
+        book: theBook.format(),
+      };
+    } catch (err) {
+      throw err;
     }
   };
 
@@ -59,7 +94,7 @@ class BookRepository {
         book: theBook.format(),
       };
     } catch (err) {
-      return errorThrower(null, 500, [{ msg: err }]);
+      throw err;
     }
   };
 

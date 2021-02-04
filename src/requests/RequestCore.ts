@@ -1,3 +1,4 @@
+import Book from "@models/Book";
 import User from "@models/User";
 import { query, param, body, check } from "express-validator";
 
@@ -20,6 +21,10 @@ class RequestCore {
           case "user":
             return User.findByPk(value).then(
               (user) => user || Promise.reject("User not found!")
+            );
+          case "book":
+            return Book.findByPk(value).then(
+              (book) => book || Promise.reject("Book not found!")
             );
           default:
             return Promise.reject("Item not found!");
