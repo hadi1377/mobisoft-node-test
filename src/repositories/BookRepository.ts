@@ -2,9 +2,20 @@ import errorThrower from "@helpers/errorThrower";
 import deleteFile from "@helpers/deleteFile";
 import Book from "@models/Book";
 import User from "@models/User";
+import GetBooks from "@classes/book/GetBooks";
 
 class BookRepository {
-  // public find = async (query) => {};
+  public fetchAll = async (query: Book.SearchQueryParams) => {
+    try {
+      const getBooks = new GetBooks(query);
+      const books = await getBooks.exec();
+      return {
+        books,
+      };
+    } catch (err) {
+      throw err;
+    }
+  };
 
   public findById = async (id: number | string) => {
     const theBook = await Book.findByPk(id);

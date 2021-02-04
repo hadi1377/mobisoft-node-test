@@ -14,8 +14,7 @@ class BookController {
   public fetchAllBooks: RequestHandler = async (req, res, next) => {
     try {
       const query: Book.SearchQueryParams = req.query;
-      const getBooks = new GetBooks(query);
-      const books = await getBooks.exec();
+      const books = await this.bookRepository.fetchAll(query);
       res.status(200).json({
         statusCode: 200,
         ...books,
